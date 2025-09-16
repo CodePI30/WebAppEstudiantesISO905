@@ -1,0 +1,106 @@
+﻿@model AppEstudiantesISO905.Domain.Models.LoginRequest
+@{
+    Layout = null;
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<section class="background-radial-gradient overflow-hidden" style="min-height: 100vh;">
+    <style>
+        .background-radial-gradient {
+            background-color: hsl(218, 41%, 15%);
+            background-image: radial-gradient(650px circle at 0% 0%, hsl(218, 41%, 35%) 15%, hsl(218, 41%, 30%) 35%, hsl(218, 41%, 20%) 75%, hsl(218, 41%, 19%) 80%, transparent 100%), radial-gradient(1250px circle at 100% 100%, hsl(218, 41%, 45%) 15%, hsl(218, 41%, 30%) 35%, hsl(218, 41%, 20%) 75%, hsl(218, 41%, 19%) 80%, transparent 100%);
+        }
+
+        #radius-shape-1 {
+            height: 220px;
+            width: 220px;
+            top: -60px;
+            left: -130px;
+            background: radial-gradient(#44006b, #ad1fff);
+            position: absolute;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        #radius-shape-2 {
+            border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+            bottom: -60px;
+            right: -110px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(#44006b, #ad1fff);
+            position: absolute;
+            z-index: 1;
+        }
+
+        .bg-glass {
+            background-color: hsla(0,0%,100%,0.9) !important;
+            backdrop-filter: saturate(200%) blur(25px);
+            border-radius: 1rem;
+            z-index: 2;
+            position: relative;
+        }
+    </style>
+
+    <div class="container py-5 px-4 text-center text-lg-start my-5">
+        <div class="row gx-lg-5 align-items-center">
+            <!-- Lado izquierdo -->
+            <div class="col-lg-6 mb-5 mb-lg-0 text-white" style="z-index:10;">
+                <h1 class="display-5 fw-bold ls-tight">
+                    Bienvenido a StuSYS<br />
+                    <span style="color: hsl(218, 81%, 75%)">Inicia sesión para continuar</span>
+                </h1>
+                <p class="mb-4 opacity-75">
+                    Ingresa tu correo y contraseña para acceder al sistema. Si no tienes cuenta, contáctate con el administrador.
+                </p>
+            </div>
+
+            <!-- Lado derecho -->
+            <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+                <div id="radius-shape-1"></div>
+                <div id="radius-shape-2"></div>
+
+                <div class="card bg-glass shadow-lg">
+                    <div class="card-body px-4 py-5">
+                        <form asp-action="Login" method="post">
+                            <div class="mb-4">
+                                <label asp-for="Email" class="form-label">Correo electrónico</label>
+                                <input asp-for="Email" class="form-control" type="email" required />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="Password" class="form-label">Contraseña</label>
+                                <input asp-for="Password" class="form-control" type="password" required />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            @if (!ViewData.ModelState.IsValid)
+                            {
+                                <p class="text-danger mb-3">Usuario o contraseña incorrectos</p>
+                            }
+
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Ingresar</button>
+
+                            <div class="text-center">
+                                <p class="mb-2">o inicia sesión con:</p>
+                                <button type="button" class="btn btn-link btn-floating mx-1"><i class="fab fa-facebook-f"></i></button>
+                                <button type="button" class="btn btn-link btn-floating mx-1"><i class="fab fa-google"></i></button>
+                                <button type="button" class="btn btn-link btn-floating mx-1"><i class="fab fa-twitter"></i></button>
+                                <button type="button" class="btn btn-link btn-floating mx-1"><i class="fab fa-github"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

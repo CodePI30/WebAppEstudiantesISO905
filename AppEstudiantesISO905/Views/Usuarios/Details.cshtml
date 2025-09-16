@@ -1,0 +1,110 @@
+﻿@model AppEstudiantesISO905.Domain.Models.Usuario
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+    body {
+        background-color: hsl(218, 41%, 15%);
+        color: hsl(218, 81%, 85%);
+        min-height: 100vh;
+    }
+
+    h1, h2, h4 {
+        color: hsl(218, 81%, 95%);
+    }
+
+    hr {
+        border-color: hsl(218, 41%, 30%);
+    }
+
+    .card-details {
+        background-color: hsl(218, 41%, 20%);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .2);
+    }
+
+    .text-label {
+        color: hsl(218, 81%, 75%);
+    }
+
+    .text-value {
+        color: hsl(218, 81%, 85%);
+    }
+
+    .btn-primary {
+        background-color: hsl(218, 81%, 75%);
+        border-color: hsl(218, 81%, 75%);
+        color: hsl(218, 41%, 15%);
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: hsl(218, 81%, 65%);
+            border-color: hsl(218, 81%, 65%);
+            color: hsl(218, 41%, 15%);
+        }
+
+    .btn-secondary {
+        background-color: hsl(218, 41%, 25%);
+        border-color: hsl(218, 41%, 35%);
+        color: hsl(218, 81%, 75%);
+    }
+
+        .btn-secondary:hover {
+            background-color: hsl(218, 41%, 35%);
+            color: hsl(218, 81%, 75%);
+        }
+
+    select:disabled {
+        background-color: hsl(218, 41%, 25%);
+        color: hsl(218, 81%, 85%);
+        border: 1px solid hsl(218, 41%, 35%);
+        cursor: not-allowed;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card-details">
+                <h2>Detalle del Usuario</h2>
+                <hr />
+
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 text-label">Nombre:</dt>
+                    <dd class="col-sm-8 text-value">@Html.DisplayFor(model => model.Nombre)</dd>
+
+                    <dt class="col-sm-4 text-label">Email:</dt>
+                    <dd class="col-sm-8 text-value">@Html.DisplayFor(model => model.Email)</dd>
+
+                    <dt class="col-sm-4 text-label">Contraseña:</dt>
+                    <dd class="col-sm-8 text-value">@Html.DisplayFor(model => model.PasswordHash)</dd>
+
+                    <dt class="col-sm-4 text-label">Estado:</dt>
+                    <dd class="col-sm-8">
+                        <select class="form-select bg-dark" disabled>
+                            <option selected="@(Model.Estado == "Activo" ? "selected" : null)">Activo</option>
+                            <option selected="@(Model.Estado == "Inactivo" ? "selected" : null)">Inactivo</option>
+                        </select>
+                    </dd>
+                </dl>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
