@@ -19,8 +19,4 @@
     <ProjectReference Include="..\AppEstudiantesISO905.Domain\AppEstudiantesISO905.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EstudianteRepository\" />
-  </ItemGroup>
-
 </Project>

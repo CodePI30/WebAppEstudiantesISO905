@@ -88,10 +88,25 @@
             background-color: hsl(218, 41%, 45%);
             color: #fff;
         }
+
+    .alert {
+        border-radius: 0.5rem;
+    }
 </style>
 
 <div class="container my-5 table-container">
     <h1>Usuarios</h1>
+
+    <!-- Mensajes de error globales -->
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger mb-3">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p class="mb-0">@error.ErrorMessage</p>
+            }
+        </div>
+    }
 
     <p>
         <a asp-action="Create" class="btn btn-create"><i class="fas fa-plus me-1"></i> Crear Nuevo</a>

@@ -5,10 +5,12 @@ using AppEstudiantesISO905.Repository.JwtToken;
 using AppEstudiantesISO905.Repository.UsuarioRepository;
 using AppEstudiantesISO905.Repository.WebAppDbContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using AppEstudiantesISO905.Repository.EstudianteRepository;
+using AppEstudiantesISO905.Repository.MateriaRepository;
+using AppEstudiantesISO905.Repository.CalificacionesRepository;
 
 namespace AppEstudiantesISO905
 {
@@ -23,11 +25,20 @@ namespace AppEstudiantesISO905
 
             builder.Services.AddDbContext<EstudiantesIso905Context>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+            
+            //Repository
             builder.Services.AddScoped<IUsuarioData, UsuarioData>();
-            builder.Services.AddScoped<IUsuarioService, UsuarioService>();
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+            builder.Services.AddScoped<IEstudianteData, EstudianteData>();
+            builder.Services.AddScoped<IMateriaData, MateriaData>();
+            builder.Services.AddScoped<ICalificacionData, CalificacionData>();
+
+            //Application
+            builder.Services.AddScoped<IUsuarioService, UsuarioService>();
             builder.Services.AddScoped<ILoginUsuarioHandler, LoginUsuarioHandler>();
+            builder.Services.AddScoped<IEstudianteService, EstudianteService>();
+            builder.Services.AddScoped<IMateriaService, MateriaService>();
+            builder.Services.AddScoped<ICalificacionService, CalificacionService>();
 
             var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 
@@ -62,14 +73,13 @@ namespace AppEstudiantesISO905
                     ValidAudience = builder.Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(key)
                 };
+            })
+            .AddCookie("Cookies", options =>
+            {
+                options.LoginPath = "/Auth/Login"; // Aquí defines la ruta de login
             });
 
             builder.Services.AddAuthorization();
-
-            builder.Services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Auth/Login";
-            });
 
             var app = builder.Build();
 

@@ -32,16 +32,29 @@ namespace AppEstudiantesISO905.Controllers
         // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            Usuario usuario = new Usuario();
+
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                usuario = await _service.ObtenerUsuarioById(id);
+
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
             }
-
-            var usuario = await _service.ObtenerUsuarioById(id);
-
-            if (usuario == null)
+            catch (ExceptionApp ex)
             {
-                return NotFound();
+                ViewData["ErrorMessage"] = ex.InnerException?.Message;
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = ex.Message;
             }
 
             return View(usuario);
@@ -62,12 +75,27 @@ namespace AppEstudiantesISO905.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.CrearUsuario(usuario);
-
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _service.CrearUsuario(usuario);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (ExceptionApp ex)
+                {
+                    // Captura la excepción personalizada y muestra mensaje en la vista
+                    ViewData["ErrorMessage"] = ex.InnerException?.Message;
+                }
+                catch (Exception ex)
+                {
+                    // Para cualquier otra excepción no esperada
+                    ViewData["ErrorMessage"] = ex.Message;
+                }
             }
+
+            // Si hay errores de validación o excepciones, volvemos a la vista con el usuario ingresado
             return View(usuario);
         }
+
 
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int id)
@@ -97,6 +125,17 @@ namespace AppEstudiantesISO905.Controllers
                 {
                     Response.HttpContext.Response.StatusCode = 404;
                 }
+                catch (ExceptionApp ex)
+                {
+                    // Captura la excepción personalizada y muestra mensaje en la vista
+                    ViewData["ErrorMessage"] = ex.InnerException?.Message;
+                }
+                catch (Exception ex)
+                {
+                    // Para cualquier otra excepción no esperada
+                    ViewData["ErrorMessage"] = ex.Message;
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(usuario);
@@ -120,7 +159,20 @@ namespace AppEstudiantesISO905.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _service.EliminarUsuario(id);
+            try
+            {
+                await _service.EliminarUsuario(id);
+
+            }
+            catch (ExceptionApp ex)
+            {
+
+                ViewData["ErrorMessage"] = ex.InnerException?.Message;
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = ex.Message;
+            }
 
             return RedirectToAction(nameof(Index));
         }

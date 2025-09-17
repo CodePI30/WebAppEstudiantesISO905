@@ -67,6 +67,10 @@
         border: 1px solid hsl(218, 41%, 35%);
         cursor: not-allowed;
     }
+
+    .alert {
+        border-radius: 0.5rem;
+    }
 </style>
 
 <div class="container py-5">
@@ -75,7 +79,12 @@
             <div class="card-details">
                 <h2>Detalle del Usuario</h2>
                 <hr />
-
+                @if (ViewData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewData["ErrorMessage"]
+                    </div>
+                }
                 <dl class="row mb-0">
                     <dt class="col-sm-4 text-label">Nombre:</dt>
                     <dd class="col-sm-8 text-value">@Html.DisplayFor(model => model.Nombre)</dd>
@@ -84,7 +93,7 @@
                     <dd class="col-sm-8 text-value">@Html.DisplayFor(model => model.Email)</dd>
 
                     <dt class="col-sm-4 text-label">Contraseña:</dt>
-                    <dd class="col-sm-8 text-value">@Html.DisplayFor(model => model.PasswordHash)</dd>
+                    <dd class="col-sm-8 text-value">##########</dd>
 
                     <dt class="col-sm-4 text-label">Estado:</dt>
                     <dd class="col-sm-8">

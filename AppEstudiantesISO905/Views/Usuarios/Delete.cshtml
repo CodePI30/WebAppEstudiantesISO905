@@ -82,6 +82,10 @@
     a:hover {
         text-decoration: underline;
     }
+
+    .alert {
+        border-radius: 0.5rem;
+    }
 </style>
 
 <div class="container py-5">
@@ -105,6 +109,13 @@
                     <dt class="col-sm-4 text-label">Estado:</dt>
                     <dd class="col-sm-8 text-value">@Html.DisplayFor(model => model.Estado)</dd>
                 </dl>
+
+                @if (ViewData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewData["ErrorMessage"]
+                    </div>
+                }
 
                 <form asp-action="Delete" class="mt-4 d-flex justify-content-between">
                     <input type="hidden" asp-for="UsuarioId" />
