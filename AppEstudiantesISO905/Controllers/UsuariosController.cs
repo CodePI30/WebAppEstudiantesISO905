@@ -67,8 +67,6 @@ namespace AppEstudiantesISO905.Controllers
         }
 
         // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UsuarioId,Nombre,Email,PasswordHash,Estado")] Usuario usuario)
@@ -82,17 +80,14 @@ namespace AppEstudiantesISO905.Controllers
                 }
                 catch (ExceptionApp ex)
                 {
-                    // Captura la excepción personalizada y muestra mensaje en la vista
                     ViewData["ErrorMessage"] = ex.InnerException?.Message;
                 }
                 catch (Exception ex)
                 {
-                    // Para cualquier otra excepción no esperada
                     ViewData["ErrorMessage"] = ex.Message;
                 }
             }
 
-            // Si hay errores de validación o excepciones, volvemos a la vista con el usuario ingresado
             return View(usuario);
         }
 
@@ -108,9 +103,6 @@ namespace AppEstudiantesISO905.Controllers
             return View(usuario);
         }
 
-        // POST: Usuarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UsuarioId,Nombre,Email,PasswordHash,Estado")] Usuario usuario)
@@ -127,12 +119,10 @@ namespace AppEstudiantesISO905.Controllers
                 }
                 catch (ExceptionApp ex)
                 {
-                    // Captura la excepción personalizada y muestra mensaje en la vista
                     ViewData["ErrorMessage"] = ex.InnerException?.Message;
                 }
                 catch (Exception ex)
                 {
-                    // Para cualquier otra excepción no esperada
                     ViewData["ErrorMessage"] = ex.Message;
                 }
 

@@ -53,7 +53,7 @@ namespace AppEstudiantesISO905
                 {
                     OnMessageReceived = context =>
                     {
-                        // Tomar token desde la cookie
+                        // Token from cookies
                         var token = context.Request.Cookies["AuthToken"];
                         if (!string.IsNullOrEmpty(token))
                         {
@@ -76,7 +76,7 @@ namespace AppEstudiantesISO905
             })
             .AddCookie("Cookies", options =>
             {
-                options.LoginPath = "/Auth/Login"; // Aquí defines la ruta de login
+                options.LoginPath = "/Auth/Login";
             });
 
             builder.Services.AddAuthorization();
@@ -87,7 +87,6 @@ namespace AppEstudiantesISO905
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

@@ -26,8 +26,6 @@ namespace AppEstudiantesISO905.Controllers
             try
             {
                 var token = await _loginHandler.Handle(request.Email, request.Password);
-
-                // Guardamos el token en una cookie
                 Response.Cookies.Append("AuthToken", token, new CookieOptions
                 {
                     HttpOnly = true,
