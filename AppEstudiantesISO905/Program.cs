@@ -3,14 +3,13 @@ using AppEstudiantesISO905.Application.Services;
 using AppEstudiantesISO905.Domain.Contracts;
 using AppEstudiantesISO905.Repository.JwtToken;
 using AppEstudiantesISO905.Repository.UsuarioRepository;
-using AppEstudiantesISO905.Repository.WebAppDbContext;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AppEstudiantesISO905.Repository.EstudianteRepository;
 using AppEstudiantesISO905.Repository.MateriaRepository;
 using AppEstudiantesISO905.Repository.CalificacionesRepository;
+using AppEstudiantesISO905.Repository.DependencyInjection;
 
 namespace AppEstudiantesISO905
 {
@@ -23,9 +22,9 @@ namespace AppEstudiantesISO905
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDbContext<EstudiantesIso905Context>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            
+            //DbContext Configuration Injection
+            builder.Services.AddRepository(builder.Configuration);
+
             //Repository
             builder.Services.AddScoped<IUsuarioData, UsuarioData>();
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
