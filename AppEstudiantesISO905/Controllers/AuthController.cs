@@ -47,7 +47,7 @@ namespace AppEstudiantesISO905.Controllers
         public IActionResult Logout()
         {
             Response.Cookies.Delete("AuthToken");
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Auth");
         }
     }
 }

@@ -66,7 +66,7 @@
 
                 <div class="card bg-glass shadow-lg">
                     <div class="card-body px-4 py-5">
-                        <form asp-action="Login" method="post">
+                        <form asp-action="Login" method="post" id="loginForm">
                             @if (!ViewData.ModelState.IsValid)
                             {
                                 <div class="alert alert-danger mb-3">
@@ -89,7 +89,16 @@
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Ingresar</button>
+                            <!-- Botón normal -->
+                            <button id="loginBtn" type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                                Ingresar
+                            </button>
+
+                            <!-- Loader oculto -->
+                            <button id="loadingBtn" type="button" class="btn btn-primary btn-lg w-100 mb-3 d-none" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Cargando...
+                            </button>
 
                             <div class="text-center">
                                 <p class="mb-2">o inicia sesión con:</p>
@@ -105,7 +114,12 @@
         </div>
     </div>
 </section>
-
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function () {
+        document.getElementById("loginBtn").classList.add("d-none");
+        document.getElementById("loadingBtn").classList.remove("d-none");
+    });
+</script>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
