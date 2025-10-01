@@ -139,6 +139,11 @@
             cursor: pointer;
      }
 
+    .carousel-wrapper {
+        background: #fff;
+        border-radius: 1rem;
+        padding: 20px;
+    }
 
     footer a { color: hsl(218, 81%, 75%); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
@@ -176,20 +181,73 @@
                         Accede a tus módulos y gestiona los usuarios de manera sencilla.
                     </p>
                 </div>
-
                 <div class="col-lg-6">
-                    <div class="row">
-                        <div class="col-md-12 mb-4">
-                            <div class="card card-glass shadow-lg h-100">
-                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                    <i class="fas fa-users fa-3x mb-3" style="color:hsl(218,81%,75%)"></i>
-                                    <h5 class="card-title">Usuarios</h5>
-                                    <p class="card-text text-center">
-                                        Gestiona los usuarios registrados en el sistema.
-                                    </p>
-                                    <a href="@Url.Action("Index", "Usuarios")" class="btn btn-primary mt-2">Ir a Usuarios</a>
-                                </div>
+                    <div class="carousel-wrapper shadow-lg p-4 rounded">
+
+                        <div id="carouselDashboard" class="carousel slide" data-bs-ride="carousel">
+
+                            <!-- Indicadores -->
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselDashboard" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Usuarios"></button>
+                                <button type="button" data-bs-target="#carouselDashboard" data-bs-slide-to="1" aria-label="Estudiantes"></button>
+                                <button type="button" data-bs-target="#carouselDashboard" data-bs-slide-to="2" aria-label="Materias"></button>
+                                <button type="button" data-bs-target="#carouselDashboard" data-bs-slide-to="3" aria-label="Calificaciones"></button>
                             </div>
+
+                            <!-- Slides -->
+                            <div class="carousel-inner text-center">
+
+                                <!-- Usuarios -->
+                                <div class="carousel-item active">
+                                    <div class="card card-glass p-4 mx-auto border-0" style="max-width: 400px;">
+                                        <i class="fas fa-users fa-3x mb-2" style="color:hsl(218,81%,75%)"></i>
+                                        <h5 class="card-title">Usuarios</h5>
+                                        <p class="card-text small">Gestiona los usuarios registrados en el sistema.</p>
+                                        <a href="@Url.Action("Index", "Usuarios")" class="btn btn-primary btn-sm mt-2">Ir a Usuarios</a>
+                                    </div>
+                                </div>
+
+                                <!-- Estudiantes -->
+                                <div class="carousel-item">
+                                    <div class="card card-glass p-4 mx-auto border-0" style="max-width: 400px;">
+                                        <i class="fas fa-user-graduate fa-3x mb-2" style="color:hsl(48,81%,75%)"></i>
+                                        <h5 class="card-title">Estudiantes</h5>
+                                        <p class="card-text small">Gestiona los estudiantes registrados en el sistema.</p>
+                                        <a href="@Url.Action("Index", "Estudiantes")" class="btn btn-primary btn-sm mt-2">Ir a Estudiantes</a>
+                                    </div>
+                                </div>
+
+                                <!-- Materias -->
+                                <div class="carousel-item">
+                                    <div class="card card-glass p-4 mx-auto border-0" style="max-width: 400px;">
+                                        <i class="fas fa-book fa-3x mb-2" style="color:hsl(120,81%,75%)"></i>
+                                        <h5 class="card-title">Materias</h5>
+                                        <p class="card-text small">Gestiona las materias disponibles en el sistema.</p>
+                                        <a href="@Url.Action("Index", "Materias")" class="btn btn-primary btn-sm mt-2">Ir a Materias</a>
+                                    </div>
+                                </div>
+
+                                <!-- Calificaciones -->
+                                <div class="carousel-item">
+                                    <div class="card card-glass p-4 mx-auto border-0" style="max-width: 400px;">
+                                        <i class="fas fa-clipboard-list fa-3x mb-2" style="color:hsl(300,81%,75%)"></i>
+                                        <h5 class="card-title">Calificaciones</h5>
+                                        <p class="card-text small">Gestiona las calificaciones de los estudiantes.</p>
+                                        <a href="@Url.Action("Index", "Calificacions")" class="btn btn-primary btn-sm mt-2">Ir a Calificaciones</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Controles -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselDashboard" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselDashboard" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Siguiente</span>
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -52,18 +52,32 @@ namespace AppEstudiantesISO905.Controllers
             return View();
         }
 
-        // POST: Calificacions/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EstudianteId,MateriaId,Calificacion1,Calificacion2,Calificacion3,Calificacion4,Examen,PromedioCalificaciones,TotalCalificacion,Clasificacion,Estado")] Calificacion calificacion)
+        public async Task<IActionResult> Create(CalificacionCreateVM model)
         {
             if (ModelState.IsValid)
             {
+                // Mapear a la entidad
+                var calificacion = new Calificacion
+                {
+                    EstudianteId = model.EstudianteId,
+                    MateriaId = model.MateriaId,
+                    Calificacion1 = model.Calificacion1,
+                    Calificacion2 = model.Calificacion2,
+                    Calificacion3 = model.Calificacion3,
+                    Calificacion4 = model.Calificacion4,
+                    Examen = model.Examen,
+                    Clasificacion = "Pendiente", // Valor por defecto
+                    Estado = "Activo"             // Valor por defecto
+                };
+
                 await _service.AddAsync(calificacion);
                 return RedirectToAction(nameof(Index));
             }
-            await CargarCombos(calificacion);
-            return View(calificacion);
+
+            await CargarCombos();
+            return View(model);
         }
 
         // GET: Calificacions/Edit/5
@@ -119,8 +133,26 @@ namespace AppEstudiantesISO905.Controllers
             var estudiantes = await _estudianteService.GetAllAsync();
             var materias = await _materiaService.GetAllMateriasAsync();
 
-            ViewData["EstudianteId"] = new SelectList(estudiantes, "EstudianteId", "Apellido", calificacion?.EstudianteId);
-            ViewData["MateriaId"] = new SelectList(materias, "MateriaId", "Nombre", calificacion?.MateriaId);
+            // Concatenamos apellido + nombre
+            var estudiantesCombo = estudiantes.Select(e => new
+            {
+                EstudianteId = e.EstudianteId,
+                NombreCompleto = $"{e.Apellido} {e.Nombre}"
+            });
+
+            ViewData["EstudianteId"] = new SelectList(
+                estudiantesCombo,
+                "EstudianteId",
+                "NombreCompleto",
+                calificacion?.EstudianteId
+            );
+
+            ViewData["MateriaId"] = new SelectList(
+                materias,
+                "MateriaId",
+                "Nombre",
+                calificacion?.MateriaId
+            );
         }
     }
 }

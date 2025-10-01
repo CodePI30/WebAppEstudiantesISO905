@@ -15,5 +15,6 @@ namespace AppEstudiantesISO905.Domain.Contracts
         Task UpdateAsync(Estudiante estudiante);
         Task DeleteAsync(Estudiante estudiante);
         Task<bool> ExistsAsync(int id);
+        Task<Estudiante> GetLastSequence();
     }
 }

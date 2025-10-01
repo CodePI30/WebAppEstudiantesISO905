@@ -1,4 +1,4 @@
-﻿@model AppEstudiantesISO905.Domain.Models.Calificacion
+﻿@model AppEstudiantesISO905.Domain.Models.CalificacionCreateVM
 
 @{
     ViewData["Title"] = "Create";
@@ -14,11 +14,15 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EstudianteId" class="control-label"></label>
-                <select asp-for="EstudianteId" class ="form-control" asp-items="ViewBag.EstudianteId"></select>
+                <select asp-for="EstudianteId" class="form-control" asp-items="@(ViewData["EstudianteId"] as SelectList)">
+                    <option value="">-- Selecciona un Estudiante --</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="MateriaId" class="control-label"></label>
-                <select asp-for="MateriaId" class ="form-control" asp-items="ViewBag.MateriaId"></select>
+                <select asp-for="MateriaId" class="form-control" asp-items="@(ViewData["MateriaId"] as SelectList)">
+                    <option value="">-- Selecciona una Materia --</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Calificacion1" class="control-label"></label>

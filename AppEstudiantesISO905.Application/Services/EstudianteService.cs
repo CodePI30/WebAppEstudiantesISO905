@@ -70,6 +70,22 @@ namespace AppEstudiantesISO905.Application.Services
             }
         }
 
+        public async Task<Estudiante> GetLastSequence()
+        {
+            try
+            {
+                var estudianteLastSequence = await _repository.GetLastSequence();
+                if (estudianteLastSequence == null)
+                    throw new ExceptionApp($"Error al obtener secuencia");
+
+                return estudianteLastSequence;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionApp("Error al obtener secuencia.", ex);
+            }
+        }
+
         public async Task DeleteAsync(int id)
         {
             try

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AppEstudiantesISO905.Domain.Models;
 using AppEstudiantesISO905.Repository.WebAppDbContext;
 using AppEstudiantesISO905.Application.Contracts;
+using AppEstudiantesISO905.Domain.ExceptionManager;
 
 namespace AppEstudiantesISO905.Controllers
 {
@@ -39,9 +40,10 @@ namespace AppEstudiantesISO905.Controllers
         }
 
         // GET: Estudiantes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var estudianteLastSequence = await _service.GetLastSequence();
+            return View(estudianteLastSequence);
         }
 
         // POST: Estudiantes/Create
@@ -51,6 +53,10 @@ namespace AppEstudiantesISO905.Controllers
         {
             if (ModelState.IsValid)
             {
+                var estudianteLastSequence = await _service.GetLastSequence();
+
+                estudiante.Matricula = estudianteLastSequence.Matricula;
+
                 await _service.AddAsync(estudiante);
                 return RedirectToAction(nameof(Index));
             }
@@ -99,8 +105,24 @@ namespace AppEstudiantesISO905.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _service.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _service.DeleteAsync(id);
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (ExceptionApp ex)
+            {
+                ViewData["ErrorMessage"] = ex.Message;
+                var estudiante = await _service.GetByIdAsync(id);
+                return View("Delete", estudiante);
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = "Ocurrió un error inesperado al intentar eliminar el estudiante.";
+                var estudiante = await _service.GetByIdAsync(id);
+                return View("Delete", estudiante);
+            }
         }
     }
 }

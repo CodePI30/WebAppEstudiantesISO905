@@ -13,6 +13,7 @@ namespace AppEstudiantesISO905.Application.Contracts
         Task<Estudiante?> GetByIdAsync(int id);
         Task AddAsync(Estudiante estudiante);
         Task UpdateAsync(Estudiante estudiante);
+        Task<Estudiante> GetLastSequence();
         Task DeleteAsync(int id);
     }
 }
