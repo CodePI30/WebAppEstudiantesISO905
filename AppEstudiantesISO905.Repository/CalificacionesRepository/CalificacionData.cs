@@ -67,19 +67,54 @@ namespace AppEstudiantesISO905.Repository.CalificacionesRepository
             }
         }
 
-        public async Task UpdateAsync(Calificacion calificacion)
+        public async Task UpdateAsync(int id, CalificacionCreateVM calificacion)
         {
             try
             {
-                _context.Calificacions.Update(calificacion);
+                var calificacionOrg = await GetByIdAsync(id);
+
+                if (calificacionOrg is null)
+                    throw new ExceptionApp("Error al obtener la calificación");
+
+                calificacionOrg.EstudianteId = calificacion.EstudianteId;
+                calificacionOrg.MateriaId = calificacion.MateriaId;
+                calificacionOrg.Calificacion1 = calificacion.Calificacion1;
+                calificacionOrg.Calificacion2 = calificacion.Calificacion2;
+                calificacionOrg.Calificacion3 = calificacion.Calificacion3;
+                calificacionOrg.Calificacion4 = calificacion.Calificacion4;
+                calificacionOrg.Examen = calificacion.Examen;
+
+                var promedio = (calificacion.Calificacion1 + calificacion.Calificacion2 +
+                                calificacion.Calificacion3 + calificacion.Calificacion4) / 4m;
+
+                var totalCalificacion = (promedio * 0.7m) + (calificacion.Examen * 0.3m);
+
+                string clasificacion;
+                if (totalCalificacion >= 90)
+                    clasificacion = "A";
+                else if (totalCalificacion >= 80)
+                    clasificacion = "B";
+                else if (totalCalificacion >= 70)
+                    clasificacion = "C";
+                else
+                    clasificacion = "F";
+
+                string estado = (totalCalificacion >= 70) ? "Aprobado" : "Reprobado";
+
+                calificacionOrg.PromedioCalificaciones = promedio;
+                calificacionOrg.TotalCalificacion = totalCalificacion;
+                calificacionOrg.Clasificacion = clasificacion;
+                calificacionOrg.Estado = estado;
+
+                _context.Calificacions.Update(calificacionOrg);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-
-                throw new ExceptionApp("Error al actualizar una calificacion", ex);
+                throw new ExceptionApp("Error al actualizar una calificación", ex);
             }
         }
+
 
         public async Task DeleteAsync(Calificacion calificacion)
         {
@@ -100,5 +135,25 @@ namespace AppEstudiantesISO905.Repository.CalificacionesRepository
             return await _context.Calificacions.AnyAsync(c => c.Id == id);
         }
 
+        public async Task<byte[]> ExportToCsvAsync()
+        {
+            var calificaciones = await _context.Calificacions
+                .Include(c => c.Estudiante)
+                .Include(c => c.Materia)
+                .ToListAsync();
+
+            if (calificaciones == null || !calificaciones.Any())
+                throw new Exception("No hay calificaciones para exportar.");
+
+            var csv = new StringBuilder();
+            csv.AppendLine("Calificacion1,Calificacion2,Calificacion3,Calificacion4,Examen,PromedioCalificaciones,TotalCalificacion,Clasificacion,Estado,Estudiante,Matricula,Materia");
+
+            foreach (var c in calificaciones)
+            {
+                csv.AppendLine($"{c.Calificacion1},{c.Calificacion2},{c.Calificacion3},{c.Calificacion4},{c.Examen},{c.PromedioCalificaciones},{c.TotalCalificacion},{c.Clasificacion},{c.Estado},{c.Estudiante?.Nombre} {c.Estudiante?.Apellido},{c.Estudiante?.Matricula},{c.Materia?.Nombre}");
+            }
+
+            return Encoding.UTF8.GetBytes(csv.ToString());
+        }
     }
 }

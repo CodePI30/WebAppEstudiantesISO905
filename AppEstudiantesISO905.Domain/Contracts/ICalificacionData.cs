@@ -12,8 +12,10 @@ namespace AppEstudiantesISO905.Domain.Contracts
         Task<IEnumerable<Calificacion>> GetAllAsync();
         Task<Calificacion?> GetByIdAsync(int id);
         Task AddAsync(Calificacion calificacion);
-        Task UpdateAsync(Calificacion calificacion);
+        Task UpdateAsync(int id, CalificacionCreateVM calificacion);
         Task DeleteAsync(Calificacion calificacion);
         Task<bool> ExistsAsync(int id);
+
+        Task<byte[]> ExportToCsvAsync();
     }
 }

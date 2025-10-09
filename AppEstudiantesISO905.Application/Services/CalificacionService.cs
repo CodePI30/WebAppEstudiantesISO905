@@ -2,6 +2,7 @@
 using AppEstudiantesISO905.Domain.Contracts;
 using AppEstudiantesISO905.Domain.ExceptionManager;
 using AppEstudiantesISO905.Domain.Models;
+using DocumentFormat.OpenXml.InkML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,15 +57,15 @@ namespace AppEstudiantesISO905.Application.Services
             }
         }
 
-        public async Task UpdateAsync(Calificacion calificacion)
+        public async Task UpdateAsync(int id ,CalificacionCreateVM calificacion)
         {
             try
             {
-                if (!await _repository.ExistsAsync(calificacion.Id))
-                    throw new ExceptionApp($"La calificación con ID {calificacion.Id} no existe.");
+                if (!await _repository.ExistsAsync(id))
+                    throw new ExceptionApp($"La calificación con ID {id} no existe.");
 
                 ValidarNotas(calificacion);
-                await _repository.UpdateAsync(calificacion);
+                await _repository.UpdateAsync(id, calificacion);
             }
             catch (Exception ex)
             {
@@ -104,6 +105,35 @@ namespace AppEstudiantesISO905.Application.Services
 
             if (calificacion.PromedioCalificaciones < 0 || calificacion.PromedioCalificaciones > 100)
                 throw new ExceptionApp("El promedio debe estar en el rango de 0 a 100.");
+        }
+
+
+        public async Task<byte[]> ExportToCsvAsync()
+        {
+            try
+            {
+                return await _repository.ExportToCsvAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new ExceptionApp("Error al exportar la data", ex);
+            }
+        }
+
+        private void ValidarNotas(CalificacionCreateVM calificacion)
+        {
+            var notas = new[]
+            {
+                calificacion.Calificacion1,
+                calificacion.Calificacion2,
+                calificacion.Calificacion3,
+                calificacion.Calificacion4,
+                calificacion.Examen
+            };
+
+            if (notas.Any(n => n < 0 || n > 100))
+                throw new ExceptionApp("Todas las calificaciones deben estar en el rango de 0 a 100.");
         }
     }
 }

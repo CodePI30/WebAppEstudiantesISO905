@@ -37,6 +37,8 @@ public partial class Calificacion
 
 public class CalificacionCreateVM
 {
+    public int? Id { get; set; }
+
     [Required(ErrorMessage = "El estudiante es obligatorio.")]
     public int EstudianteId { get; set; }
 

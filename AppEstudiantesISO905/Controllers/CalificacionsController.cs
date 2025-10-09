@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using AppEstudiantesISO905.Domain.Models;
 using AppEstudiantesISO905.Repository.WebAppDbContext;
 using AppEstudiantesISO905.Application.Contracts;
+using DocumentFormat.OpenXml.InkML;
+using System.Text;
+using AppEstudiantesISO905.Application.Services;
 
 namespace AppEstudiantesISO905.Controllers
 {
@@ -88,25 +91,38 @@ namespace AppEstudiantesISO905.Controllers
             var calificacion = await _service.GetByIdAsync(id.Value);
             if (calificacion == null) return NotFound();
 
+            // Mapear la entidad al ViewModel
+            var model = new CalificacionCreateVM
+            {
+                EstudianteId = calificacion.EstudianteId,
+                MateriaId = calificacion.MateriaId,
+                Calificacion1 = calificacion.Calificacion1,
+                Calificacion2 = calificacion.Calificacion2,
+                Calificacion3 = calificacion.Calificacion3,
+                Calificacion4 = calificacion.Calificacion4,
+                Examen = calificacion.Examen
+            };
+
             await CargarCombos(calificacion);
-            return View(calificacion);
+            return View(model);
         }
 
         // POST: Calificacions/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EstudianteId,MateriaId,Calificacion1,Calificacion2,Calificacion3,Calificacion4,Examen,PromedioCalificaciones,TotalCalificacion,Clasificacion,Estado")] Calificacion calificacion)
+        public async Task<IActionResult> Edit(int id, CalificacionCreateVM model)
         {
-            if (id != calificacion.Id) return NotFound();
-
             if (ModelState.IsValid)
             {
-                await _service.UpdateAsync(calificacion);
+
+                await _service.UpdateAsync(id , model);
                 return RedirectToAction(nameof(Index));
             }
-            await CargarCombos(calificacion);
-            return View(calificacion);
+
+            await CargarCombos();
+            return View(model);
         }
+
 
         // GET: Calificacions/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -153,6 +169,21 @@ namespace AppEstudiantesISO905.Controllers
                 "Nombre",
                 calificacion?.MateriaId
             );
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportToCsv()
+        {
+            try
+            {
+                var csvBytes = await _service.ExportToCsvAsync();
+                return File(csvBytes, "text/csv", "Calificaciones.csv");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
     }
 }

@@ -4,62 +4,151 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-<h4>Calificacion</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EstudianteId" class="control-label"></label>
-                <select asp-for="EstudianteId" class="form-control" asp-items="@(ViewData["EstudianteId"] as SelectList)">
-                    <option value="">-- Selecciona un Estudiante --</option>
-                </select>
+<style>
+    body {
+        background-color: hsl(218, 41%, 15%);
+        color: hsl(218, 81%, 85%);
+        min-height: 100vh;
+    }
+
+    h1, h4 {
+        color: hsl(218, 81%, 95%);
+    }
+
+    hr {
+        border-color: hsl(218, 41%, 30%);
+    }
+
+    .form-control {
+        background-color: hsl(218, 41%, 25%);
+        color: hsl(218, 81%, 85%);
+        border: 1px solid hsl(218, 41%, 35%);
+        border-radius: 0.5rem;
+    }
+
+        .form-control:focus {
+            background-color: hsl(218, 41%, 25%);
+            color: hsl(218, 81%, 95%);
+            border-color: hsl(218, 81%, 75%);
+            box-shadow: none;
+        }
+
+    .btn-primary {
+        background-color: hsl(218, 81%, 75%);
+        border-color: hsl(218, 81%, 75%);
+        color: hsl(218, 41%, 15%);
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background-color: hsl(218, 81%, 65%);
+            border-color: hsl(218, 81%, 65%);
+            color: hsl(218, 41%, 15%);
+        }
+
+    .btn-outline-light {
+        border: 1px solid hsl(218, 81%, 75%);
+        color: hsl(218, 81%, 75%);
+    }
+
+        .btn-outline-light:hover {
+            background-color: hsl(218, 81%, 75%);
+            color: hsl(218, 41%, 15%);
+        }
+
+    a {
+        color: hsl(218, 81%, 75%);
+        text-decoration: none;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    .card-create {
+        background-color: hsl(218, 41%, 20%);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .2);
+    }
+
+    .alert {
+        border-radius: 0.5rem;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card-create">
+                <h1><i class="fas fa-clipboard-list me-2"></i>Crear Calificación</h1>
+                <h4>Detalles de la calificación</h4>
+                <hr />
+
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="EstudianteId" class="form-label"></label>
+                        <select asp-for="EstudianteId" class="form-control" asp-items="@(ViewData["EstudianteId"] as SelectList)">
+                            <option value="">-- Selecciona un Estudiante --</option>
+                        </select>
+                        <span asp-validation-for="EstudianteId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="MateriaId" class="form-label"></label>
+                        <select asp-for="MateriaId" class="form-control" asp-items="@(ViewData["MateriaId"] as SelectList)">
+                            <option value="">-- Selecciona una Materia --</option>
+                        </select>
+                        <span asp-validation-for="MateriaId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Calificacion1" class="form-label"></label>
+                        <input asp-for="Calificacion1" class="form-control" />
+                        <span asp-validation-for="Calificacion1" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Calificacion2" class="form-label"></label>
+                        <input asp-for="Calificacion2" class="form-control" />
+                        <span asp-validation-for="Calificacion2" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Calificacion3" class="form-label"></label>
+                        <input asp-for="Calificacion3" class="form-control" />
+                        <span asp-validation-for="Calificacion3" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Calificacion4" class="form-label"></label>
+                        <input asp-for="Calificacion4" class="form-control" />
+                        <span asp-validation-for="Calificacion4" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Examen" class="form-label"></label>
+                        <input asp-for="Examen" class="form-control" />
+                        <span asp-validation-for="Examen" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <input type="submit" value="Crear" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-outline-light">Volver atrás</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="MateriaId" class="control-label"></label>
-                <select asp-for="MateriaId" class="form-control" asp-items="@(ViewData["MateriaId"] as SelectList)">
-                    <option value="">-- Selecciona una Materia --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Calificacion1" class="control-label"></label>
-                <input asp-for="Calificacion1" class="form-control" />
-                <span asp-validation-for="Calificacion1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Calificacion2" class="control-label"></label>
-                <input asp-for="Calificacion2" class="form-control" />
-                <span asp-validation-for="Calificacion2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Calificacion3" class="control-label"></label>
-                <input asp-for="Calificacion3" class="form-control" />
-                <span asp-validation-for="Calificacion3" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Calificacion4" class="control-label"></label>
-                <input asp-for="Calificacion4" class="form-control" />
-                <span asp-validation-for="Calificacion4" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Examen" class="control-label"></label>
-                <input asp-for="Examen" class="form-control" />
-                <span asp-validation-for="Examen" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
