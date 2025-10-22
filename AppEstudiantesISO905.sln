@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEstudiantesISO905", "AppEstudiantesISO905\AppEstudiantesISO905.csproj", "{EDD3FB45-C192-4C14-ABEA-AB0BFE5F70A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppEstudiantesISO905", "AppEstudiantesISO905\AppEstudiantesISO905.csproj", "{EDD3FB45-C192-4C14-ABEA-AB0BFE5F70A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEstudiantesISO905.Application", "AppEstudiantesISO905.Application\AppEstudiantesISO905.Application.csproj", "{4A19DE31-7F3A-4574-BFE6-56F8930D76E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppEstudiantesISO905.Application", "AppEstudiantesISO905.Application\AppEstudiantesISO905.Application.csproj", "{4A19DE31-7F3A-4574-BFE6-56F8930D76E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEstudiantesISO905.Domain", "AppEstudiantesISO905.Domain\AppEstudiantesISO905.Domain.csproj", "{368E34AA-D857-40D9-9EAA-45869CE6AE63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppEstudiantesISO905.Domain", "AppEstudiantesISO905.Domain\AppEstudiantesISO905.Domain.csproj", "{368E34AA-D857-40D9-9EAA-45869CE6AE63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEstudiantesISO905.Repository", "AppEstudiantesISO905.Repository\AppEstudiantesISO905.Repository.csproj", "{7E5A5BB1-B0CB-4570-AF19-3E519DF156D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppEstudiantesISO905.Repository", "AppEstudiantesISO905.Repository\AppEstudiantesISO905.Repository.csproj", "{7E5A5BB1-B0CB-4570-AF19-3E519DF156D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEstudiantesISO905.Api", "AppEstudiantesISO905.Api\AppEstudiantesISO905.Api.csproj", "{86B54135-569D-42D6-BD29-B248993BC926}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7E5A5BB1-B0CB-4570-AF19-3E519DF156D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E5A5BB1-B0CB-4570-AF19-3E519DF156D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E5A5BB1-B0CB-4570-AF19-3E519DF156D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86B54135-569D-42D6-BD29-B248993BC926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86B54135-569D-42D6-BD29-B248993BC926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86B54135-569D-42D6-BD29-B248993BC926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86B54135-569D-42D6-BD29-B248993BC926}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
