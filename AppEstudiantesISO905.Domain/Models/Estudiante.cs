@@ -17,3 +17,18 @@ public partial class Estudiante
 
     public virtual ICollection<Calificacion> Calificacions { get; set; } = new List<Calificacion>();
 }
+
+public partial class EstudianteCreateModel
+{
+    public int EstudianteId { get; set; }
+
+    public string Nombre { get; set; } = null!;
+
+    public string Apellido { get; set; } = null!;
+
+    public string FechaNacimiento { get; set; } = null!;
+
+    public string Matricula { get; set; } = null!;
+}
+
+

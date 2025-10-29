@@ -2,6 +2,7 @@
 using AppEstudiantesISO905.Domain.Contracts;
 using AppEstudiantesISO905.Domain.ExceptionManager;
 using AppEstudiantesISO905.Domain.Models;
+using DocumentFormat.OpenXml.EMMA;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,12 +56,59 @@ namespace AppEstudiantesISO905.Application.Services
             }
         }
 
+        public async Task AddAsync(EstudianteCreateModel model)
+        {
+            try
+            {
+                var estudiante = new Estudiante
+                {
+                    EstudianteId = model.EstudianteId,
+                    Nombre = model.Nombre,
+                    Apellido = model.Apellido,
+                    FechaNacimiento = DateOnly.Parse(model.FechaNacimiento), // 👈 conversión automática
+                    Matricula = model.Matricula
+                };
+
+                await _repository.AddAsync(estudiante);
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionApp("Error al crear el estudiante.", ex);
+            }
+        }
+
+
+
         public async Task UpdateAsync(Estudiante estudiante)
         {
             try
             {
                 if (!await _repository.ExistsAsync(estudiante.EstudianteId))
                     throw new ExceptionApp($"El estudiante con ID {estudiante.EstudianteId} no existe.");
+
+                await _repository.UpdateAsync(estudiante);
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionApp("Error al actualizar el estudiante.", ex);
+            }
+        }
+
+        public async Task UpdateAsync(EstudianteCreateModel model)
+        {
+            try
+            {
+                if (!await _repository.ExistsAsync(model.EstudianteId))
+                    throw new ExceptionApp($"El estudiante con ID {model.EstudianteId} no existe.");
+
+                var estudiante = new Estudiante
+                {
+                    EstudianteId = model.EstudianteId,
+                    Nombre = model.Nombre,
+                    Apellido = model.Apellido,
+                    FechaNacimiento = DateOnly.Parse(model.FechaNacimiento),
+                    Matricula = model.Matricula
+                };
 
                 await _repository.UpdateAsync(estudiante);
             }
