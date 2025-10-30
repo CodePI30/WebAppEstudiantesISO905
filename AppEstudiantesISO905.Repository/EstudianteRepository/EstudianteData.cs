@@ -116,6 +116,16 @@ namespace AppEstudiantesISO905.Repository.EstudianteRepository
                 if (year == yearCreated)
                     throw new ExceptionApp("No puedes eliminar un estudiante del ano en curso");
 
+                var calificaciones = await _context.Calificacions
+                    .Where(c => c.EstudianteId == estudiante.EstudianteId)
+                    .ToListAsync();
+
+                if (calificaciones.Any())
+                {
+                    _context.Calificacions.RemoveRange(calificaciones);
+                    await _context.SaveChangesAsync();
+                }
+
                 _context.Estudiantes.Remove(estudiante);
                 await _context.SaveChangesAsync();
             }
