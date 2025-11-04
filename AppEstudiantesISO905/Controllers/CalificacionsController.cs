@@ -176,7 +176,7 @@ namespace AppEstudiantesISO905.Controllers
         {
             try
             {
-                var csvBytes = await _service.ExportToCsvAsync();
+                var csvBytes = await ToCsvData();
                 return File(csvBytes, "text/csv", "Calificaciones.csv");
             }
             catch (Exception ex)
@@ -184,6 +184,21 @@ namespace AppEstudiantesISO905.Controllers
                 TempData["ErrorMessage"] = ex.Message;
                 return RedirectToAction("Index");
             }
+        }
+
+        private async Task<byte[]> ToCsvData()
+        {
+            var calificacionsData = await _service.ExportToCsvAsync();
+
+            var csv = new StringBuilder();
+            csv.AppendLine("Calificacion1,Calificacion2,Calificacion3,Calificacion4,Examen,PromedioCalificaciones,TotalCalificacion,Clasificacion,Estado,Estudiante,Matricula,Materia");
+
+            foreach (var c in calificacionsData)
+            {
+                csv.AppendLine($"{c.Calificacion1},{c.Calificacion2},{c.Calificacion3},{c.Calificacion4},{c.Examen},{c.PromedioCalificaciones},{c.TotalCalificacion},{c.Clasificacion},{c.Estado},{c.Estudiante?.Nombre} {c.Estudiante?.Apellido},{c.Estudiante?.Matricula},{c.Materia?.Nombre}");
+            }
+
+            return Encoding.UTF8.GetBytes(csv.ToString());
         }
     }
 }

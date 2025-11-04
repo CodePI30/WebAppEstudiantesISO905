@@ -108,7 +108,7 @@ namespace AppEstudiantesISO905.Application.Services
         }
 
 
-        public async Task<byte[]> ExportToCsvAsync()
+        public async Task<List<Calificacion>> ExportToCsvAsync()
         {
             try
             {

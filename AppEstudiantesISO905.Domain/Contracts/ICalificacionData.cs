@@ -15,7 +15,6 @@ namespace AppEstudiantesISO905.Domain.Contracts
         Task UpdateAsync(int id, CalificacionCreateVM calificacion);
         Task DeleteAsync(Calificacion calificacion);
         Task<bool> ExistsAsync(int id);
-
-        Task<byte[]> ExportToCsvAsync();
+        Task<List<Calificacion>> ExportToCsvAsync();
     }
 }

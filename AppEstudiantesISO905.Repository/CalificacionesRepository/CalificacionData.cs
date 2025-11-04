@@ -135,7 +135,7 @@ namespace AppEstudiantesISO905.Repository.CalificacionesRepository
             return await _context.Calificacions.AnyAsync(c => c.Id == id);
         }
 
-        public async Task<byte[]> ExportToCsvAsync()
+        public async Task<List<Calificacion>> ExportToCsvAsync()
         {
             var calificaciones = await _context.Calificacions
                 .Include(c => c.Estudiante)
@@ -145,15 +145,7 @@ namespace AppEstudiantesISO905.Repository.CalificacionesRepository
             if (calificaciones == null || !calificaciones.Any())
                 throw new Exception("No hay calificaciones para exportar.");
 
-            var csv = new StringBuilder();
-            csv.AppendLine("Calificacion1,Calificacion2,Calificacion3,Calificacion4,Examen,PromedioCalificaciones,TotalCalificacion,Clasificacion,Estado,Estudiante,Matricula,Materia");
-
-            foreach (var c in calificaciones)
-            {
-                csv.AppendLine($"{c.Calificacion1},{c.Calificacion2},{c.Calificacion3},{c.Calificacion4},{c.Examen},{c.PromedioCalificaciones},{c.TotalCalificacion},{c.Clasificacion},{c.Estado},{c.Estudiante?.Nombre} {c.Estudiante?.Apellido},{c.Estudiante?.Matricula},{c.Materia?.Nombre}");
-            }
-
-            return Encoding.UTF8.GetBytes(csv.ToString());
+            return calificaciones;
         }
     }
 }
